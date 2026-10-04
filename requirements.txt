@@ -1,0 +1,12 @@
+torch
+torchvision
+transformers
+timm
+tensorflow
+tensorflow-hub
+librosa
+opencv-python
+pillow
+scikit-learn
+numpy
+setuptools<81

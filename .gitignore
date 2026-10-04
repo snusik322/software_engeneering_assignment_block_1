@@ -1,0 +1,9 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.idea/
+.vscode/
+.pytest_cache/
+4_video/output/
+*.tmp
