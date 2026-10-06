@@ -31,27 +31,27 @@ pip install -r requirements.txt
 
 ## Определение тональности текста
 
-Запуск: python 1_text/sentiment.py "Отличный фильм"
+Запуск: python text/sentiment.py "Отличный фильм"
 
-Тестовые отзывы находятся в: 1_text/data/test_samples.json
+Тестовые отзывы находятся в: text/data/test_samples.json
 
-Запуск собственного тестирования: python 1_text/evaluate.py
+Запуск собственного тестирования: python text/evaluate.py
 
 ## Классификация изображений
 
-Запуск: python 2_image/classify.py путь_к_фото.jpg
+Запуск: python image/classify.py путь_к_фото.jpg
 
-Тестовые изображения находятся в: 2_image/data/
+Тестовые изображения находятся в: image/data/
 
-Запуск собственного тестирования: python 2_image/evaluate.py
+Запуск собственного тестирования: python image/evaluate.py
 
 ## Классификация звуков
 
-Запуск: python 3_audio/yamnet_classify.py путь_к_записи.wav
+Запуск: python audio/yamnet_classify.py путь_к_записи.wav
 
-Тестовые аудиофайлы находятся в: 3_audio/data/
+Тестовые аудиофайлы находятся в: audio/data/
 
-Запуск собственного тестирования: python 3_audio/evaluate.py
+Запуск собственного тестирования: python audio/evaluate.py
 
 ## Детекция объектов на видео
 
@@ -69,3 +69,63 @@ pip install -r requirements.txt
 - Hugging Face Transformers
 - torchvision
 - OpenCV
+
+
+# Часть 2. API для ML-модели
+
+Для модели определения тональности текста разработан REST API на FastAPI. API позволяет определить тональность одного или нескольких отзывов и проверить состояние загруженной модели.
+
+### Запуск API
+
+```bash
+uvicorn api.main:app --reload
+```
+
+После запуска доступны:
+
+- Swagger UI: `http://127.0.0.1:8000/docs`
+- Проверка состояния API: `GET /health`
+- Определение тональности текста: `POST /sentiment`
+- Пакетное определение тональности: `POST /sentiment/batch`
+
+Пример запроса:
+
+```json
+{
+  "text": "Отличный фильм, очень понравился!"
+}
+```
+
+API возвращает определённую тональность (`positive`, `neutral` или `negative`), вероятность выбранного класса и вероятности всех классов.
+
+### Тестирование API
+
+Для тестирования используется PyTest. Тесты проверяют работу endpoint'ов, валидацию входных данных, обработку ошибок и корректность ответов модели.
+
+Запуск всех тестов:
+
+```bash
+pytest -v
+```
+
+Тесты с подменённой моделью можно запустить отдельно:
+
+```bash
+pytest -m "not model" -v
+```
+
+Тесты с настоящей ML-моделью:
+
+```bash
+pytest -m model -v
+```
+
+### GitHub Actions
+
+Для автоматического запуска тестов настроен GitHub Actions. Тесты автоматически запускаются при `push` и создании `pull request`.
+
+Workflow находится в:
+
+```text
+.github/workflows/test.yml
+```
