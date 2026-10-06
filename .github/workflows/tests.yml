@@ -17,12 +17,12 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-          cache-dependency-path: api/requirements.txt
+          cache-dependency-path: requirements.txt
 
       - name: Установить зависимости (torch для процессора)
         run: |
           python -m pip install --upgrade pip
-          pip install -r api/requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
 
       - name: Восстановить кэш весов модели
         uses: actions/cache@v4
